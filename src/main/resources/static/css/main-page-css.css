@@ -1,0 +1,388 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+
+.flex-container{
+    min-height: 100vh;
+    background-color: lightgrey;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+}
+
+.flex-main-item{
+    flex: 60%;
+}
+
+.flex-side-item{
+    position: relative;
+    flex: 20%;
+}
+
+.flex-side-item-container{
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    height: 100%;
+}
+
+.flex-side-item-info-box{
+    flex: 20%;
+    border: solid white 1px;
+}
+
+.flex-side-item-info-item{
+    font-size: smaller;
+    transform: translateX(5%);
+    word-wrap: break-word;
+    max-width: 95%;
+}
+
+.flex-side-item-message-box{
+    position: relative;
+    flex: 70%;
+    border: solid white 1px;
+}
+
+.flex-side-item-message-send-box{
+    position: relative;
+    flex: 10%;
+    border: solid white 1px;
+}
+
+.flex-main-item-user-box{
+    flex: 15%;
+}
+
+.flex-main-item-frame{
+    flex: 70%;
+}
+
+.flex-main-item-leave{
+    flex: 15%;
+}
+
+.flex-main-container{
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    height: 100%;
+}
+
+.flex-item-list{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    height: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-user-item{
+    width: 20%;
+    height: 100%;
+    border: white solid 1px;
+    position: relative;
+}
+
+
+#current-room-size{
+    color: red;
+}
+
+.flex-user-item-string{
+    text-align: center;
+    margin-bottom: 5px;
+    font-size: 20px;
+}
+
+.flex-message-item{
+    position: relative;
+    width: 80%;
+    max-width: 80%;
+    transform: translateX(10%);
+    margin-top: 2px;
+    margin-bottom: 2px;
+}
+
+.flex-message-item-general-message{
+    position: relative;
+    border-radius: 7px;
+    padding: 7px;
+    background-color: lightskyblue;
+}
+
+.flex-message-item-name{
+    font-size: small;
+}
+
+.flex-message-item-raw-message{
+    position: relative;
+    border-radius: 7px;
+    background-color: lightgreen;
+    padding: 7px;
+    word-wrap: break-word;
+    max-width: 100%;
+}
+
+.flex-message-item:last-child .flex-message-item-raw-message{
+    background-color: lightskyblue;
+}
+
+.flex-message-item:last-child .flex-message-item-raw-message:before{
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    bottom: 7px;
+    background-color: lightgrey;
+    left: -15px;
+    border-radius: 20px;
+    z-index: 1;
+}
+
+.flex-message-item:last-child .flex-message-item-raw-message:after{
+    content: '';
+    position: absolute;
+    width: 15px;
+    left: -10px;
+    bottom: 4px;
+    height: 15px;
+    background-color: lightskyblue;
+    border-radius: 20px;
+}
+
+.flex-message-item-general-message::before{
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    bottom: 7px;
+    background-color: lightgrey;
+    left: -15px;
+    border-radius: 20px;
+    z-index: 1;
+}
+
+.flex-message-item-general-message::after{
+    content: '';
+    position: absolute;
+    width: 15px;
+    left: -10px;
+    bottom: 4px;
+    height: 15px;
+    background-color: lightskyblue;
+    border-radius: 20px;
+}
+
+.flex-message-item-raw-message::before{
+    content: '';
+    position: absolute;
+    width: 15px;
+    height: 15px;
+    bottom: 7px;
+    background-color: lightgrey;
+    left: -15px;
+    border-radius: 20px;
+    z-index: 1;
+}
+
+.flex-message-item-raw-message::after{
+    content: '';
+    position: absolute;
+    width: 15px;
+    left: -10px;
+    bottom: 4px;
+    height: 15px;
+    background-color: lightgreen;
+    border-radius: 20px;
+}
+
+.frame-properties{
+    height: 100%;
+    width: 99.8%;
+    border: solid white 1px;
+}
+
+.text-area-properties{
+    margin-left: 2%;
+    resize: none;
+    width: 70%;
+    height: 90%;
+}
+
+.btn-properties{
+    position: absolute;
+    padding: 10px;
+    top: 30%;
+    right: 5%;
+}
+
+.flex-friend-box{
+    position: relative;
+    height: 100%;
+    border: solid white 1px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    gap: 5px;
+    align-items: center;
+    justify-content: center;
+}
+
+.flex-friend-item {
+    transform: translateX(10%);
+    border-radius: 5px;
+    border: 2px solid white;
+    width: 80%;
+    height: 10%;
+    overflow: hidden;
+}
+
+.flex-friend-item-btn{
+    width: 100%;
+    height: 100%;
+    padding: 16px 16px;
+    font-size: 20px;
+    background-color: lightskyblue;
+    border: none;
+    cursor: pointer;
+}
+
+.alert-box{
+    z-index: 1;
+    height: auto;
+    width: 100%;
+    padding: 16px 8px;
+    background-color: lightskyblue;
+    font-size: 20px;
+    text-align: center;
+    color: white;
+}
+
+
+.flex-friend-item-name{
+    display: block;
+    text-align: center;
+}
+
+.flex-friend-item:not(:hover) .flex-friend-item-btn{
+    opacity: 0.7;
+}
+
+.flex-friend-item:hover{
+    opacity: 1;
+}
+
+.show-item{
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 25px;
+    height: 50px;
+    background-color: gray;
+}
+
+.show-item-message{
+    right: 0;
+}
+
+.show-item-align-right{
+    right: 0;
+}
+
+.animation-show-item-friend{
+    animation-name: animator-show-item;
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
+    animation-play-state: initial;
+    animation-timing-function: linear;
+}
+
+.animation-show-item-message{
+    animation-name: animator-show-item-message-section;
+    animation-duration: 0.5s;
+    animation-iteration-count: 1;
+    animation-play-state: initial;
+    animation-timing-function: linear;
+}
+
+@keyframes animator-show-item {
+    0%{
+        left: 0;
+    }
+    50%{
+        left: 50%;
+    }
+    100%{
+        left: 90%;
+    }
+}
+
+@keyframes animator-show-item-message-section {
+    0%{
+        right: 0;
+    }
+    50%{
+        right: 50%;
+    }
+    100%{
+        right: 90%;
+    }
+}
+
+@keyframes message-animator {
+    from{
+        background-color: lightskyblue;
+    }
+    to{
+        background-color: lightgreen;
+    }
+}
+
+.form-message-box{
+    height: 100%;
+    width: 100%;
+}
+
+.alert {
+    padding: 20px;
+    text-align: center;
+    color: white;
+    opacity: 1;
+    transition: opacity 0.6s;
+    margin-bottom: 15px;
+}
+
+.alert.success {background-color: #04AA6D;}
+.alert.info {background-color: #2196F3;}
+.alert.warning {background-color: #ff9800;}
+
+.user-item-option{
+    width: 100%;
+    padding: 16px 16px;
+    background-color: lightskyblue;
+    cursor: pointer;
+    display: block;
+    border: none;
+    font-size: 17px;
+}
+
+.user-item-option:last-child{
+    margin-top: 5px;
+}
+
+.leave-button{
+    width: 100%;
+    height: 100%;
+    background-color: lightskyblue;
+    border: none;
+    padding: 26px 26px;
+    font-size: 30px;
+    cursor: pointer;
+}
+
+
+

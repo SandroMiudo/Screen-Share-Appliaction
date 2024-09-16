@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main-Room</title>
+    <link rel="stylesheet" href="/css/main-page-css.css">
+    <script src="/js/main.js"></script>
+    <script src="/js/reload.js"></script>
+</head>
+<body>
+    <a th:href="@{/index/main}" hidden id="redirect-main-room">link</a>
+    <input type="hidden" th:value="${roomadmin}" id="room-admin-prop">
+    <input type="hidden" th:value="${roomid}" id="room-id-prop">
+    <input type="hidden" th:value="${uservalue}" id="user-id-prop">
+    <div id="alert-box"></div>
+    <div class="flex-container">
+        <div class="flex-side-item">
+            <div class="flex-side-item-container" id="flex-side-item-message-block">
+                <div class="flex-side-item-info-box">
+                    <h2 style="transform: translateX(5%);margin-bottom: 5px;">Room-Information</h2>
+                    <div class="flex-side-item-info-item">
+                        <span>Room-Name : </span><span th:text="${roomname}"></span>
+                        <span id="current-roomsize"></span>
+                    </div>
+                    <div class="flex-side-item-info-item">
+                        <span>Room-ID : </span><span id="roomid" th:text="${roomid}"></span>
+                    </div>
+                    <div class="flex-side-item-info-item">
+                        <span>Admin-ID : </span><span th:text="${roomadmin}"></span>
+                    </div>
+                    <div class="flex-side-item-info-item">
+                        <span>Room-Size : </span><span th:text="${roomsize}"></span>
+                        <span> | Current Room-Size : <span id="current-room-size" th:text="${roomcounter}"></span></span>
+                    </div>
+                    <input type="hidden" id="join-time" th:value="${roomjointime}">
+                </div>
+                <div class="flex-side-item-message-box" id="message-box">
+                    <span class="show-item show-item-message" onclick="hideMessageBox()"></span>
+                </div>
+                <div class="flex-side-item-message-send-box">
+                    <div class="form-message-box">
+                        <label for="m-area" hidden></label>
+                        <textarea placeholder="Type in message..." name="rawmessage" id="m-area"
+                              class="text-area-properties"></textarea>
+                        <input type="hidden" name="userID" th:value="${uservalue}" id="message-userID">
+                        <input type="hidden" name="roomID" th:value="${roomid}" id="message-roomID">
+                        <input type="hidden" name="sendtime" id="time-value">
+                        <input type="hidden" name="messageID" value="1" id="message-messageID">
+                        <input type="hidden" name="roomName" value="" id="message-roomName">
+                        <button class="btn-properties" onclick="resolveCurrentDataTime()">Submit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="flex-main-item">
+            <div class="flex-main-container">
+                <div class="flex-main-item-user-box" id="user-box">
+                    <div class="flex-item-list">
+                        <div class="flex-user-item" th:each="user : ${roomusers}" th:id="${user.userID()}">
+                            <div>
+                                <div class="flex-user-item-string" th:text="${user.roomName()}"></div>
+                                <div th:if="${uservalue} eq ${roomadmin} and ${user.userID.toString()} != ${roomadmin}">
+                                    <!--<button class="user-item-option">Grant Admin</button>-->
+                                    <button class="user-item-option"
+                                            th:onclick="remove([[ ${user.userID}]] , [[${roomadmin}]] , [[${roomid}]] )"
+                                    >Remove User</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex-main-item-frame">
+                    <iframe class="frame-properties" name="iframe" src="login.html" width="500px;" height="500px"
+                            allowfullscreen>
+                    </iframe>
+                </div>
+                <a  href="https://www.google.com/search?igu=1" target="iframe">Start Session</a>
+                <div class="flex-main-item-leave">
+                    <form th:action="@{/index/room/leave}" method="post" style="height: 100%;width: 100%;">
+                        <input type="hidden" th:value="${uservalue}" name="userID">
+                        <input type="hidden" th:value="${roomid}" name="roomID">
+                        <button class="leave-button" onclick="updateRoomStatus()">Leave Room.</button>
+                        <button hidden id="leave-button">Leave</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="flex-side-item" id="flex-side-item-friend">
+            <div class="flex-friend-box">
+                <div th:each="friend : ${friends}" class="flex-friend-item"
+                     th:id="${friend.friendid}" >
+                    <div class="flex-friend-item-name" th:text="${friend.friendname}"></div>
+                    <button class="flex-friend-item-btn"
+                            th:onclick="invite([[ ${friend.friendid}]] , [[ ${roomid} ]])">Invite</button>
+                </div>
+                <span class="show-item" onclick="hideFriendBox()"></span>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

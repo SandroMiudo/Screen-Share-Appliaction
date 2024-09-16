@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login-Page</title>
+    <link rel="stylesheet" href="/css/login-page-css.css">
+    <script src="/js/login-page.js"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="flex-column-left">
+            <div class="flex-inner-column-left">
+                <form th:action="@{/index/room/create}" method=post class="dropdown-menu" id="dropdown-menu-create">
+                    <span class="dropdown-return" onclick="revert_DisplayDropdown('dropdown-menu-create')">&times;</span>
+                    <div class="dropdown-menu-item-container">
+                        <div id="create-text-field" class="dropdown-menu-item">
+                            <label for="text-field-create" style="color: white">Room-Name</label>
+                            <input name="roomname" type="text" class="input-text" id="text-field-create">
+                        </div>
+                        <div id="create-text-field2" class="dropdown-menu-item">
+                            <label for="create-text-field2" style="color: white">Name</label>
+                            <input name="username" type="text" class="input-text" id="text-field-create2">
+                        </div>
+                        <div id="create-range-field" class="dropdown-menu-item">
+                            <div class="slidecontainer">
+                                <label for="myRange" style="color: white">Room-Size</label>
+                                <input name="roomsize" type="range" min="0" max="5" value="0" class="slider" id="myRange" oninput="updateRoomSizeValue()">
+                                <span id="value-range" style="color: white">Current Value : 0</span>
+                            </div>
+                        </div>
+                        <div id="create-submit" class="dropdown-menu-item">
+                            <span class="submit-create" id="drag-start-sp" draggable="true"><i id="drag-start-i"
+                                    style="position:absolute;top: 5px;right: 7px;font-size: 20px">&rightarrow;</i></span>
+                            <span class="drag-target" id="drag-target"></span>
+                        </div>
+                    </div>
+                    <input type="submit" hidden id="submit-create">
+                    <input type="hidden" name="adminuser" th:value="${uservalue}">
+                    <input type="hidden" name="sessionuser" th:value="${usersession}">
+                </form>
+                <form th:action="@{/index/friend/add}" method=post class="dropdown-menu" id="dropdown-menu-friend">
+                    <span class="dropdown-return" onclick="revert_DisplayDropdown('dropdown-menu-friend')">&times;</span>
+                    <div class="dropdown-menu-item-container">
+                        <div id="friend-text-field" class="dropdown-menu-item">
+                            <label for="text-field-friend" style="color: white">User-ID</label>
+                            <input name="friendID" type="text" class="input-text" id="text-field-friend">
+                        </div>
+                        <div id="friend-text-field2" class="dropdown-menu-item">
+                            <label for="text-field-friend2" style="color: white">User-Name</label>
+                            <input name="friendName" type="text" class="input-text" id="text-field-friend2">
+                        </div>
+                        <div class="dropdown-menu-item" id="submit-button-friends">
+                            <button class="button-custom" style="background-color: rgba(0,0,0,0.1)"><span>SUBMIT</span></button>
+                        </div>
+                    </div>
+                    <input type="hidden" name="userID" th:value="${uservalue}">
+                    <input type="hidden" name="sessionID" th:value="${usersession}">
+                </form>
+                <form id="dropdown-menu-invite">
+                </form>
+                <div th:text="${uservalue}" class="text-prop">a</div>
+                <div>
+                    <button class="button-custom" onclick="displayDropdown()"><span>CREATE ROOM</span></button>
+                    <button class="button-custom" onclick="displayDropdown_Friends()"><span>ADD FRIEND</span></button>
+                </div>
+                <div>
+                    <form th:action="@{/index/room/join}" method="post">
+                        <label for="text-field-join" hidden>Room-Code</label>
+                        <input type="text" id="text-field-join" placeholder="Enter code" class="input-text"
+                               name="roomCode">
+                        <label for="text-field-join2" hidden>Room-Name</label>
+                        <input type="text" name="roomname" id="text-field-join2">
+                        <input type="hidden" name="uservalue" th:value="${uservalue}">
+                        <button>Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="flex-column-right">
+            <div th:each="friend : ${allfriends}">
+                <span></span>
+                <a th:href="@{/friend/remove/{user_id}/{friend_id}/{session_id}(user_id=${uservalue}
+                ,friend_id=${friend.friendID},session_id=${usersession})}">Remove Friend</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

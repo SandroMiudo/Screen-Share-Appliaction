@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Main-Site</title>
+    <link rel="stylesheet" href="/css/main-site.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="/js/main-site.js"></script>
+</head>
+<body>
+    <div class="topnav">
+        <span>ID : <i th:text="${userid}" id="user-id"></i></span>
+        <span>USERNAME : <i th:text="${username}" id="user-username"></i></span>
+        <button class="openbtn split" onclick="openNav2()">☰ Invites<i th:text="${invitecount}" id="invite-count">0</i></button>
+        <button class="openbtn split" onclick="openNav()">☰ Friends<i th:text="${friendcount}" id="friend-count">0</i></button>
+        <button class="openbtn split" onclick="openFormAdd()">☰ Add Friend</button>
+    </div>
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <div id="friend-section">
+            <div th:each="friend : ${friends}" th:id="${friend.friendid}">
+                <div th:text="${friend.friendid}"></div>
+                <div th:text="${friend.friendname}"></div>
+                <div>
+                    <input type="hidden" th:value="${friend.userid}" name="userid" id="sidebar-user-id">
+                    <input type="hidden" th:value="${friend.friendid}" name="friendid" id="sidebar-friend-id">
+                    <input type="hidden" th:value="${friend.friendname}" name="friendname" id="sidebar-friend-name">
+                    <button class="card-button" onclick=removeRequest();>Remove</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="mySidebar2" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav2()">×</a>
+        <div id="invite-section">
+            <div th:each="invite : ${invites}" >
+                <div th:id="${invite.roomID}">
+                    <button th:onclick="autoInsertValue([[${invite.roomID}]])"
+                            th:text="'Invited to room ' + ${invite.roomID}" class="card-button"></button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="friendSidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeFormAdd()">×</a>
+        <label for="form-friend-id" hidden>Friend-ID</label>
+        <input type="text" id="form-friend-id" name="friendid" required minlength="36" maxlength="36"
+        placeholder="Friend-ID">
+        <label for="form-friend-friendname" hidden>Friend-Name</label>
+        <input type="text" name="friendname" id="form-friend-friendname" required minlength="4" maxlength="36"
+        placeholder="Friend-Name">
+        <input type="hidden" name="userid" th:value="${userid}" id="form-user-id">
+        <button class="card-button" onclick="addRequest()">Add Friend</button>
+    </div>
+    <div id="alert-place"></div>
+    <div class="main-board">
+        <div class="card">
+            <div class="card-header">
+                 <span>Current Rooms</span>
+            </div>
+            <div class="card-info">
+                <span>Currently available online rooms : </span><span th:text="${currentroomsize}"></span>
+            </div>
+            <div class="card-data">
+                <table>
+                    <tr>
+                        <th>Admin</th>
+                        <th>Current Room-Size</th>
+                        <th>Room-Size</th>
+                        <th>Room-Tag</th>
+                    </tr>
+                    <tr th:each="room : ${currentrooms}">
+                        <td th:text="${room.admin}"></td>
+                        <td th:text="${room.currentSize}"></td>
+                        <td th:text="${room.size}"></td>
+                        <td th:text="${room.roomName}"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="card-footer">
+                <div class="card-data-not-visible">
+                    <button class="card-button">Show less</button>
+                    <table>
+                        <tr>
+                            <th>Admin</th>
+                            <th>Current Room-Size</th>
+                            <th>Room-Size</th>
+                            <th>Room-Tag</th>
+                        </tr>
+                        <tr th:each="room : ${allrooms}">
+                            <td th:text="${room.admin}"></td>
+                            <td th:text="${room.currentSize}"></td>
+                            <td th:text="${room.size}"></td>
+                            <td th:text="${room.roomName}"></td>
+                        </tr>
+                    </table>
+                    <button class="card-button">Show less</button>
+                </div>
+                <button class="card-button" onclick="">Show more</button>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <span>Join Rooms</span>
+            </div>
+            <div class="card-info">
+                <span>Currently joinable rooms : </span><span th:text="${joinableroomsize}"></span>
+            </div>
+            <div class="card-data">
+                <table>
+                    <tr>
+                        <th>Admin</th>
+                        <th>Current Room-Size</th>
+                        <th>Room-Size</th>
+                        <th>Room-Tag</th>
+                    </tr>
+                    <tr th:each="room : ${joinrooms}">
+                        <td th:text="${room.admin}"></td>
+                        <td th:text="${room.currentSize}"></td>
+                        <td th:text="${room.size}"></td>
+                        <td th:text="${room.roomName}"></td>
+                    </tr>
+                </table>
+            </div>
+            <div class="card-footer">
+                <div class="card-data-not-visible">
+                    <button class="card-button">Show less</button>
+                    <table>
+                        <tr>
+                            <th>Admin</th>
+                            <th>Current Room-Size</th>
+                            <th>Room-Size</th>
+                            <th>Room-Tag</th>
+                        </tr>
+                        <tr th:each="room : ${notFullRooms}">
+                            <td th:text="${room.admin}"></td>
+                            <td th:text="${room.currentSize}"></td>
+                            <td th:text="${room.size}"></td>
+                            <td th:text="${room.roomName}"></td>
+                        </tr>
+                    </table>
+                    <button class="card-button">Show less</button>
+                </div>
+                <button class="card-button" onclick="">Show more</button>
+            </div>
+            <div class="card-data">
+                <form th:action="@{/index/room/join}" method="post" name="login-form">
+                    <label for="input-room-login" hidden>Room-Code</label>
+                    <input type="text" name="roomCode" id="input-room-login"
+                           placeholder="Room-Code" required minlength="36" maxlength="36"
+                           onfocusout="updateProcessBar('login-process','login-form')">
+                    <label for="input-name-login" hidden>Room-Name</label>
+                    <input type="text" name="roomname" id="input-name-login" minlength="4"
+                           maxlength="30" required placeholder="Room-Name"
+                           onfocusout="updateProcessBar('login-process','login-form')">
+                    <input type="hidden" name="uservalue" th:value="${userid}">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="login-process">
+                            0%
+                        </div>
+                    </div>
+                    <button class="card-button">Join a room</button>
+                </form>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <span>Create Room</span>
+            </div>
+            <div class="card-info">
+                <span>Follow these steps two create an own room.</span>
+            </div>
+            <div class="card-data">
+                <form th:action="@{/index/room/create}" method="post" name="create-login">
+                    <label for="input-creation-room" hidden></label>
+                    <input type="text" minlength="4" maxlength="16" required name="roomname" id="input-creation-room"
+                    placeholder="Room-Tag" onfocusout="updateProcessBar('create-process','create-login')">
+                    <label for="input-creation-size" hidden>Room-Size</label>
+                    <input type="number" min="1" max="5" required name="roomsize" id="input-creation-size"
+                           placeholder="Room-Size" oninput="notANumber(this);"
+                           onfocusout="updateProcessBar('create-process','create-login')">
+                    <label for="input-creation-username" hidden>Room-Username</label>
+                    <input type="text" name="username" required id="input-creation-username"
+                           placeholder="Room-Username" onfocusout="updateProcessBar('create-process','create-login')">
+                    <input type="hidden" name="adminuser" th:value="${userid}">
+                    <div class="progress-bar-container">
+                        <div class="progress-bar" id="create-process">
+                            0%
+                        </div>
+                    </div>
+                    <button class="card-button">Create a room</button>
+                </form>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header">
+                <span>Statistics</span>
+            </div>
+            <div class="card-info">
+                <span>Displays the user or room count of every day.</span>
+            </div>
+            <div class="card-data">
+                <div id="room-count">
+                    <div th:text="${day}" style="margin-bottom: 5px;"></div>
+                    <div th:each="entry : ${statistics}" class="room-container">
+                        <span th:text="${entry.key}" class="room-item-indicator"></span>
+                        <div th:style="'width:calc(20px + 2 * ' + ${entry.value} + 'px);'" class="room-item"
+                        th:text="${entry.value}"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="card-footer">
+                <a th:href="@{/index/main}" class="card-button">Update statistics</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
